@@ -23,6 +23,7 @@ class VelocityDisplay extends me.Renderable {
         this.velocityMag = 0;
         this.phi = 0;
         this.force = 0;
+        this.health = 10;
         this.keyStates = {
             up: false,
             down: false,
@@ -43,8 +44,9 @@ class VelocityDisplay extends me.Renderable {
                 Math.pow(player.body.vel.y, 2)
             ).toFixed(2);
             // Get polar coordinates
-            this.phi = ((player.phi * 180 / Math.PI).toFixed(1) + "°"); // Convert to degrees
+            this.phi = ((player.phi * 180 / Math.PI).toFixed(1) + " deg"); // Convert to degrees
             this.force = player.force.toFixed(2);
+            this.health = player.health.toFixed(1);
             
             // Update key states
             this.keyStates.up = me.input.isKeyPressed("up");
@@ -58,8 +60,8 @@ class VelocityDisplay extends me.Renderable {
     draw(renderer) {
         // Draw velocity information
         this.font.draw(renderer,
-            `Vel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}\nPhi: ${this.phi}\nForce: ${this.force}\n` +
-            `Keys:\n↑: ${this.keyStates.up ? "ON" : "off"}\n↓: ${this.keyStates.down ? "ON" : "off"}\n←: ${this.keyStates.left ? "ON" : "off"}\n→: ${this.keyStates.right ? "ON" : "off"}`,
+            `Health: ${this.health}\nVel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}\nPhi: ${this.phi}\nForce: ${this.force}\n` +
+            `Keys:\nU: ${this.keyStates.up ? "ON" : "off"}\nD: ${this.keyStates.down ? "ON" : "off"}\nL: ${this.keyStates.left ? "ON" : "off"}\nR: ${this.keyStates.right ? "ON" : "off"}`,
             this.pos.x,
             this.pos.y
         );

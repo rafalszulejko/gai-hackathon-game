@@ -6,6 +6,8 @@ const DataManifest = [
     
     /* Tilesets */
     { name: "cgalab",                       type: "image",   src: "data/map/cgalab.png" },
+    { name: "cgalab2",                      type: "image",   src: "data/map/cgalab2.png" },
+    { name: "cgalab3",                      type: "image",   src: "data/map/cgalab3.png" },
     
     /* Bitmap Text */
     { name: "island-rotated-tiles",         type: "tmx",     src: "data/map/island-1.json" },

@@ -1,5 +1,6 @@
 import * as me from 'melonjs';
 import VelocityDisplay from '../entities/VelocityDisplay';
+import LaserEntity from '../renderables/laser';
 
 class PlayScreen extends me.Stage {
     /**
@@ -8,6 +9,9 @@ class PlayScreen extends me.Stage {
     onResetEvent() {
         // disable gravity
         me.game.world.gravity.set(0, 0);
+
+        // register our laser object
+        me.pool.register("laser", LaserEntity);
 
         // load the level
         me.level.load("map");
