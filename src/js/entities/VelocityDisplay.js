@@ -3,7 +3,7 @@ import * as me from 'melonjs';
 class VelocityDisplay extends me.Renderable {
     constructor(x, y) {
         // Call parent constructor with position and size
-        super(x, y, 50, 180); // Increased height to accommodate key states
+        super(x, y, 50, 100); // Reduced height since we no longer show key states
 
         // Create font objects for display
         this.font = new me.BitmapText(0, 0, {
@@ -24,12 +24,6 @@ class VelocityDisplay extends me.Renderable {
         this.phi = 0;
         this.force = 0;
         this.health = 10;
-        this.keyStates = {
-            up: false,
-            down: false,
-            left: false,
-            right: false
-        };
     }
 
     update(dt) {
@@ -47,12 +41,6 @@ class VelocityDisplay extends me.Renderable {
             this.phi = ((player.phi * 180 / Math.PI).toFixed(1) + " deg"); // Convert to degrees
             this.force = player.force.toFixed(2);
             this.health = player.health.toFixed(1);
-            
-            // Update key states
-            this.keyStates.up = me.input.isKeyPressed("up");
-            this.keyStates.down = me.input.isKeyPressed("down");
-            this.keyStates.left = me.input.isKeyPressed("left");
-            this.keyStates.right = me.input.isKeyPressed("right");
         }
         return true;
     }
@@ -60,8 +48,7 @@ class VelocityDisplay extends me.Renderable {
     draw(renderer) {
         // Draw velocity information
         this.font.draw(renderer,
-            `Health: ${this.health}\nVel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}\nPhi: ${this.phi}\nForce: ${this.force}\n` +
-            `Keys:\nU: ${this.keyStates.up ? "ON" : "off"}\nD: ${this.keyStates.down ? "ON" : "off"}\nL: ${this.keyStates.left ? "ON" : "off"}\nR: ${this.keyStates.right ? "ON" : "off"}`,
+            `Health: ${this.health}\nVel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}\nPhi: ${this.phi}\nForce: ${this.force}`,
             this.pos.x,
             this.pos.y
         );

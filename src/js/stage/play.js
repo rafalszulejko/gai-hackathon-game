@@ -23,12 +23,16 @@ class PlayScreen extends me.Stage {
         // Add velocity display in bottom right corner
         // You can customize the position by changing these values
         const x = me.game.viewport.width;  // 200 pixels from right edge
-        const y = me.game.viewport.height - 10;  // 80 pixels from bottom
+        const y = me.game.viewport.height - 30;  // 80 pixels from bottom
         me.game.world.addChild(new VelocityDisplay(x, y));
 
         // Initialize voice control
         this.voiceControl = new VoiceControl();
         this.voiceControl.setPlayer(this.player);
+
+        // Initialize monster spawning
+        this.monsterSpawnTimer = 0;
+        this.monsterSpawnInterval = 5000; // Spawn a monster every 5 seconds
     }
     
     update(dt) {
@@ -50,6 +54,14 @@ class PlayScreen extends me.Stage {
                 this.player.turnBack();
             }
         }
+
+        // Update monster spawning
+        this.monsterSpawnTimer += dt;
+        if (this.monsterSpawnTimer >= this.monsterSpawnInterval) {
+            this.monsterSpawnTimer = 0;
+            this.spawnMonster();
+        }
+
         return true;
     }
     
@@ -62,6 +74,25 @@ class PlayScreen extends me.Stage {
             this.voiceControl.stopVoiceControl();
         }
     }
-};
+
+    /**
+     * Spawn a monster at a random position on the map
+     */
+    spawnMonster() {
+        // Define spawn area boundaries (adjust these based on your map)
+        const minX = 32;
+        const maxX = 448;
+        const minY = 32;
+        const maxY = 288;
+
+        // Generate random position
+        const x = Math.random() * (maxX - minX) + minX;
+        const y = Math.random() * (maxY - minY) + minY;
+
+        // Create and add monster to the game world
+        const monster = me.pool.pull("monster", x, y, {});
+        me.game.world.addChild(monster, 5); // z-order of 5 to appear above background
+    }
+}
 
 export default PlayScreen;
