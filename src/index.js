@@ -22,11 +22,12 @@ import DataManifest from "./manifest.js";
 device.onReady(() => {
 
     // initialize the display canvas once the device/browser is ready
-    if (!video.init(1218, 562, {
+    if (!video.init(480, 320, {
         parent: "screen",
         scale: "2",  // Set fixed scaling to 2x
         scaleMethod: "nearest", // Use nearest-neighbor scaling for pixel-perfect rendering
-        renderer: video.AUTO
+        renderer: video.AUTO,
+        subPixel: false // Disable subpixel rendering for pixel-perfect graphics
     })) {
         alert("Your browser does not support HTML5 canvas.");
         return;
