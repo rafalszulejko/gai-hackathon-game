@@ -40,29 +40,31 @@ class PlayerEntity extends me.Sprite {
         this.setCurrentAnimation("walk_down");
     }
 
+    steerLeft() {
+        this.phi += -0.1;
+    }
+
+    steerRight() {
+        this.phi += 0.1;
+    }
+
+    accelerate() {
+        this.force = Math.min(this.force + this.forceStep, this.maxForce);
+    }
+
+    brake() {
+        this.force = Math.max(this.force - this.forceStep, 0);
+    }
+
     /**
      * update the player pos
      */
     update(dt) {
-        // Update angle based on left/right keys
-        if (me.input.isKeyPressed("left")) {
-            this.phi += -0.1;
-        } else if (me.input.isKeyPressed("right")) {
-            this.phi += 0.1;
-        }
+        // Natural force decrease when no input
+        this.force = Math.max(this.force - this.forceStep/20, 0);
 
         // Normalize phi to stay within 0 to 2π
         this.phi = ((this.phi % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-
-        // Update force magnitude based on up/down keys
-        if (me.input.isKeyPressed("up")) {
-            this.force = Math.min(this.force + this.forceStep, this.maxForce);
-        } else if (me.input.isKeyPressed("down")) {
-            this.force = Math.max(this.force - this.forceStep, 0);
-        } else {
-            // Natural force decrease when no key is pressed
-            this.force = Math.max(this.force - this.forceStep/20, 0);
-        }
 
         // Calculate current velocity angle
         let currentAngle = 0;
