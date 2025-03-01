@@ -3,7 +3,7 @@ import * as me from 'melonjs';
 class VelocityDisplay extends me.Renderable {
     constructor(x, y) {
         // Call parent constructor with position and size
-        super(x, y, 50, 80);
+        super(x, y, 50, 180); // Increased height to accommodate key states
 
         // Create font objects for display
         this.font = new me.BitmapText(0, 0, {
@@ -21,6 +21,14 @@ class VelocityDisplay extends me.Renderable {
         this.velocityX = 0;
         this.velocityY = 0;
         this.velocityMag = 0;
+        this.phi = 0;
+        this.force = 0;
+        this.keyStates = {
+            up: false,
+            down: false,
+            left: false,
+            right: false
+        };
     }
 
     update(dt) {
@@ -34,6 +42,15 @@ class VelocityDisplay extends me.Renderable {
                 Math.pow(player.body.vel.x, 2) + 
                 Math.pow(player.body.vel.y, 2)
             ).toFixed(2);
+            // Get polar coordinates
+            this.phi = ((player.phi * 180 / Math.PI).toFixed(1) + "°"); // Convert to degrees
+            this.force = player.force.toFixed(2);
+            
+            // Update key states
+            this.keyStates.up = me.input.isKeyPressed("up");
+            this.keyStates.down = me.input.isKeyPressed("down");
+            this.keyStates.left = me.input.isKeyPressed("left");
+            this.keyStates.right = me.input.isKeyPressed("right");
         }
         return true;
     }
@@ -41,7 +58,8 @@ class VelocityDisplay extends me.Renderable {
     draw(renderer) {
         // Draw velocity information
         this.font.draw(renderer,
-            `Vel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}`,
+            `Vel X: ${this.velocityX}\nVel Y: ${this.velocityY}\nMag: ${this.velocityMag}\nPhi: ${this.phi}\nForce: ${this.force}\n` +
+            `Keys:\n↑: ${this.keyStates.up ? "ON" : "off"}\n↓: ${this.keyStates.down ? "ON" : "off"}\n←: ${this.keyStates.left ? "ON" : "off"}\n→: ${this.keyStates.right ? "ON" : "off"}`,
             this.pos.x,
             this.pos.y
         );
