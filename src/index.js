@@ -6,7 +6,8 @@ import {
     video,
     utils,
     plugin,
-    pool
+    pool,
+    input
 } from "melonjs";
 
 import "./index.css";
@@ -21,7 +22,12 @@ import DataManifest from "./manifest.js";
 device.onReady(() => {
 
     // initialize the display canvas once the device/browser is ready
-    if (!video.init(1218, 562, { parent: "screen", scale: "auto" })) {
+    if (!video.init(1218, 562, {
+        parent: "screen",
+        scale: "2",  // Set fixed scaling to 2x
+        scaleMethod: "nearest", // Use nearest-neighbor scaling for pixel-perfect rendering
+        renderer: video.AUTO
+    })) {
         alert("Your browser does not support HTML5 canvas.");
         return;
     }
@@ -40,6 +46,12 @@ device.onReady(() => {
     // allow cross-origin for image/texture loading
     loader.setOptions({crossOrigin: "anonymous"});
 
+    // Initialize keyboard controls
+    input.bindKey(input.KEY.LEFT, "left");
+    input.bindKey(input.KEY.RIGHT, "right");
+    input.bindKey(input.KEY.UP, "up");
+    input.bindKey(input.KEY.DOWN, "down");
+    
     // set and load all resources.
     loader.preload(DataManifest, function () {
         // set the user defined game stages

@@ -1,5 +1,4 @@
 body {
-
     background-color: black;
     color: white;
 
@@ -16,10 +15,22 @@ body {
 
     /* Allow canvas to hit the edges of the browser viewport. */
     margin: 0;
+    
+    /* Center the game canvas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #screen canvas {
     margin: auto;
     /* Hide the gap for font descenders. */
     display: block;
+    
+    /* Ensure crisp pixels when scaled */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
