@@ -71,6 +71,14 @@ class MonsterEntity extends me.Sprite {
         } else if (other.body.collisionType === me.collision.types.ENEMY_OBJECT && other.type === "laser") {
             // Collision with laser - monster dies
             me.game.world.removeChild(this);
+            // Increment score
+            const playScreen = me.state.current();
+            if (playScreen && typeof playScreen.incrementScore === "function") {
+                playScreen.incrementScore(100);
+                console.log("Score incremented:", playScreen.score); // Debug log
+            } else {
+                console.warn("Could not increment score - PlayScreen not found or incrementScore not available");
+            }
             return false;
         } else if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
             // Collision with player - decrease player health
