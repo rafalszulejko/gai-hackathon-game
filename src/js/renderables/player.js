@@ -58,7 +58,7 @@ class PlayerEntity extends me.Sprite {
         this.setCurrentAnimation("idle_down");
 
         // add health property
-        this.health = 10;
+        this.health = 100;
         
         // track collision state
         this.isInCollision = false;
@@ -216,6 +216,9 @@ class PlayerEntity extends me.Sprite {
                     return false;  // Let the laser pass through but still trigger damage
                 }
                 return true;  // Solid collision with other enemy objects
+            case me.collision.types.COLLECTIBLE_OBJECT:
+                // Let powerups handle their own collection logic
+                return false;  // No collision response, but trigger collision handling
         }
         return true;
     }

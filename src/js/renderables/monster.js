@@ -74,7 +74,7 @@ class MonsterEntity extends me.Sprite {
             return false;
         } else if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
             // Collision with player - decrease player health
-            other.health = Math.max(0, other.health - 2);
+            other.health = Math.max(0, other.health - 0.5);
             return false;
         }
         return false;

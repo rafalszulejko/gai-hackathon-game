@@ -1,6 +1,7 @@
 import * as me from 'melonjs';
 import VelocityDisplay from '../entities/VelocityDisplay';
 import LaserEntity from '../renderables/laser';
+import PowerupEntity from '../renderables/powerup';
 import VoiceControl from '../voice-control';
 
 class PlayScreen extends me.Stage {
@@ -13,6 +14,7 @@ class PlayScreen extends me.Stage {
 
         // register our laser object
         me.pool.register("laser", LaserEntity);
+        me.pool.register("powerup", PowerupEntity);
 
         // load the level
         me.level.load("map");
@@ -33,6 +35,10 @@ class PlayScreen extends me.Stage {
         // Initialize monster spawning
         this.monsterSpawnTimer = 0;
         this.monsterSpawnInterval = 5000; // Spawn a monster every 5 seconds
+
+        // Initialize powerup spawning
+        this.powerupSpawnTimer = 0;
+        this.powerupSpawnInterval = 8000; // Spawn a powerup every 8 seconds
     }
     
     update(dt) {
@@ -58,8 +64,15 @@ class PlayScreen extends me.Stage {
         // Update monster spawning
         this.monsterSpawnTimer += dt;
         if (this.monsterSpawnTimer >= this.monsterSpawnInterval) {
-            this.monsterSpawnTimer = 0;
             this.spawnMonster();
+            this.monsterSpawnTimer = 0;
+        }
+
+        // Update powerup spawning
+        this.powerupSpawnTimer += dt;
+        if (this.powerupSpawnTimer >= this.powerupSpawnInterval) {
+            this.spawnPowerup();
+            this.powerupSpawnTimer = 0;
         }
 
         return true;
@@ -92,6 +105,25 @@ class PlayScreen extends me.Stage {
         // Create and add monster to the game world
         const monster = me.pool.pull("monster", x, y, {});
         me.game.world.addChild(monster, 5); // z-order of 5 to appear above background
+    }
+
+    /**
+     * Spawn a powerup at a random position on the map
+     */
+    spawnPowerup() {
+        // Use same boundaries as monster spawning
+        const minX = 32;
+        const maxX = 448;
+        const minY = 32;
+        const maxY = 288;
+
+        // Generate random position
+        const x = Math.random() * (maxX - minX) + minX;
+        const y = Math.random() * (maxY - minY) + minY;
+
+        // Create and add powerup to the game world
+        const powerup = me.pool.pull("powerup", x, y, {});
+        me.game.world.addChild(powerup, 5);
     }
 }
 
