@@ -18,8 +18,8 @@ class PlayerEntity extends me.Sprite {
         this.body.addShape(new me.Rect(0, 0, this.width, this.height));
         
         // walking speed
-        this.body.setMaxVelocity(1.5, 1.5);
-        this.body.setFriction(0.01,0.01);
+        this.body.setMaxVelocity(1, 1);
+        this.body.setFriction(0.00,0.00);
         this.body.ignoreGravity = true;
 
         // polar coordinate controls
@@ -70,11 +70,11 @@ class PlayerEntity extends me.Sprite {
     }
 
     steerLeft() {
-        this.phi += -0.1;
+        this.phi += -0.3;
     }
 
     steerRight() {
-        this.phi += 0.1;
+        this.phi += 0.3;
     }
 
     accelerate() {
@@ -85,12 +85,17 @@ class PlayerEntity extends me.Sprite {
         this.force = Math.max(this.force - this.forceStep, 0);
     }
 
+    turnBack() {
+        // Add π (180 degrees) to current angle to turn back
+        this.phi += Math.PI;
+    }
+
     /**
      * update the player pos
      */
     update(dt) {
         // Natural force decrease when no input
-        this.force = Math.max(this.force - this.forceStep/20, 0);
+        // this.force = Math.max(this.force - this.forceStep/20, 0);
 
         // Update collision timer
         if (this.isInCollision) {

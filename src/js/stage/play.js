@@ -1,6 +1,7 @@
 import * as me from 'melonjs';
 import VelocityDisplay from '../entities/VelocityDisplay';
 import LaserEntity from '../renderables/laser';
+import VoiceControl from '../voice-control';
 
 class PlayScreen extends me.Stage {
     /**
@@ -24,6 +25,10 @@ class PlayScreen extends me.Stage {
         const x = me.game.viewport.width;  // 200 pixels from right edge
         const y = me.game.viewport.height - 10;  // 80 pixels from bottom
         me.game.world.addChild(new VelocityDisplay(x, y));
+
+        // Initialize voice control
+        this.voiceControl = new VoiceControl();
+        this.voiceControl.setPlayer(this.player);
     }
     
     update(dt) {
@@ -41,6 +46,9 @@ class PlayScreen extends me.Stage {
             if (me.input.isKeyPressed("down")) {
                 this.player.brake();
             }
+            if (me.input.isKeyPressed("turnback")) {
+                this.player.turnBack();
+            }
         }
         return true;
     }
@@ -50,6 +58,9 @@ class PlayScreen extends me.Stage {
      */
     onDestroyEvent() {
         // Clean up any resources if needed
+        if (this.voiceControl) {
+            this.voiceControl.stopVoiceControl();
+        }
     }
 };
 

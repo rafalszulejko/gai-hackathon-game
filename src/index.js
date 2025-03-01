@@ -52,6 +52,7 @@ device.onReady(() => {
     input.bindKey(input.KEY.RIGHT, "right");
     input.bindKey(input.KEY.UP, "up");
     input.bindKey(input.KEY.DOWN, "down");
+    input.bindKey(input.KEY.SPACE, "turnback");
     
     // set and load all resources.
     loader.preload(DataManifest, function () {
